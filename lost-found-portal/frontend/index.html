@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Lost & Found Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-search"></i>
+                    <span>Campus Lost & Found</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#items">Browse Items</a></li>
+                        <li><a href="#report">Report</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button class="btn btn-outline" id="loginBtn">Login</button>
+                    <button class="btn btn-primary" id="registerBtn">Register</button>
+                    <div class="user-profile hidden" id="userProfile">
+                        <div class="avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Find What You've Lost</h1>
+            <p>Reuniting students with their lost belongings across campus</p>
+            <div class="hero-actions">
+                <button class="btn btn-secondary" id="reportLostBtn">
+                    <i class="fas fa-plus"></i> Report Lost Item
+                </button>
+                <button class="btn btn-outline" id="browseFoundBtn">
+                    <i class="fas fa-search"></i> Browse Found Items
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search items...">
+                <button class="btn btn-primary" id="searchBtn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            <div class="filters">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="documents">Documents</option>
+                    <option value="keys">Keys</option>
+                    <option value="wallets">Wallets</option>
+                    <option value="bags">Bags</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="lost">Lost Items</option>
+                    <option value="found">Found Items</option>
+                </select>
+                <button class="btn btn-outline" id="clearFilters">Clear Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Items Section -->
+    <section class="main-content" id="items">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-clock"></i> Recent Items
+            </h2>
+            <div class="items-grid" id="itemsGrid">
+                <!-- Items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Campus Lost & Found Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay hidden" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Login to Your Account</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <input type="email" placeholder="Email Address" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <p style="text-align: center; margin-top: 15px;">
+                    Don't have an account? <a href="#" id="showRegister">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay hidden" id="registerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Campus Email" required>
+                    <input type="text" placeholder="Student ID" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <p style="text-align: center; margin-top: 15px;">
+                    Already have an account? <a href="#" id="showLogin">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal-overlay hidden" id="reportModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Report Lost or Found Item</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label>Item Type</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="type" value="lost" checked> Lost Item
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="found"> Found Item
+                            </label>
+                        </div>
+                    </div>
+                    <input type="text" name="title" placeholder="Item Title (e.g., Black iPhone 13)" required>
+                    <textarea name="description" placeholder="Detailed Description" required></textarea>
+                    <select name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="documents">Documents</option>
+                        <option value="keys">Keys</option>
+                        <option value="wallets">Wallets</option>
+                        <option value="bags">Bags</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="books">Books</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" name="location" placeholder="Location (e.g., Main Library, Room 205)" required>
+                    <input type="text" name="color" placeholder="Color (optional)">
+                    <input type="text" name="brand" placeholder="Brand (optional)">
+                    <input type="email" name="contactEmail" placeholder="Your Email for contact" required>
+                    <button type="submit" class="btn btn-primary">Submit Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
