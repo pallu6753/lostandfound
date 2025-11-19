@@ -40,6 +40,21 @@
         .report-modal .quick-type h4 {
             color: var(--dark); margin-bottom: 0.5rem;
         }
+        .quick-type-p {
+            color: var(--gray); font-size: 0.9rem;
+        }
+        .step-indicator-span {
+            color: var(--gray); font-size: 0.9rem;
+        }
+        .step-indicator-div {
+            font-weight: 600; color: var(--dark);
+        }
+        .form-tips-icon {
+            color: var(--warning); margin-top: 2px;
+        }
+        .submit-section p {
+            text-align: center; margin: 0.5rem 0 0 0; color: var(--gray); font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -194,7 +209,7 @@
             <div class="quick-type">
                 <div class="quick-type-header">
                     <h4>What would you like to do?</h4>
-                    <p style="color: var(--gray); font-size: 0.9rem;">Choose one option to get started</p>
+                    <p class="quick-type-p">Choose one option to get started</p>
                 </div>
                 <div class="type-buttons">
                     <button type="button" class="type-btn active" data-type="lost">
@@ -258,8 +273,8 @@
                             <i class="fas fa-arrow-left"></i> Back
                         </button>
                         <div class="step-indicator">
-                            <span style="color: var(--gray); font-size: 0.9rem;">Step 2 of 2</span>
-                            <div style="font-weight: 600; color: var(--dark);">Additional Details</div>
+                            <span class="step-indicator-span">Step 2 of 2</span>
+                            <div class="step-indicator-div">Additional Details</div>
                         </div>
                     </div>
 
@@ -292,7 +307,7 @@
 
                         <div class="form-tips">
                             <p>
-                                <i class="fas fa-lightbulb" style="color: var(--warning); margin-top: 2px;"></i>
+                                <i class="fas fa-lightbulb form-tips-icon"></i>
                                 <span><strong>Pro tip:</strong> The more details you provide, the easier it will be to identify and return your item!</span>
                             </p>
                         </div>
