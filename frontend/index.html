@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Lost & Found Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Styles moved from inline to prevent accessibility issues and improve maintainability */
+        .login-modal-p {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .register-modal-p {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .report-modal {
+            max-width: 500px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .report-modal-header {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .report-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        .report-modal .quick-type {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .report-modal .quick-type h4 {
+            color: var(--dark); margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-search"></i>
+                    <span>Campus Lost & Found</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#items">Browse Items</a></li>
+                        <li><a href="#" id="reportNav">Report</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button class="btn btn-outline" id="loginBtn">Login</button>
+                    <button class="btn btn-primary" id="registerBtn">Register</button>
+                    <div class="user-profile hidden" id="userProfile">
+                        <div class="avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Find What You've Lost</h1>
+            <p>Reuniting students with their lost belongings across campus</p>
+            <div class="hero-actions">
+                <button class="btn btn-secondary" id="reportLostBtn">
+                    <i class="fas fa-plus"></i> Report Lost Item
+                </button>
+                <button class="btn btn-outline" id="browseFoundBtn">
+                    <i class="fas fa-search"></i> Browse Found Items
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search items by title, description...">
+                <button class="btn btn-primary" id="searchBtn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            <div class="filters">
+                <select id="categoryFilter" aria-label="Filter by category">
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="documents">Documents</option>
+                    <option value="keys">Keys</option>
+                    <option value="wallets">Wallets</option>
+                    <option value="bags">Bags</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="typeFilter" aria-label="Filter by type">
+                    <option value="">All Types</option>
+                    <option value="lost">Lost Items</option>
+                    <option value="found">Found Items</option>
+                </select>
+                <button class="btn btn-outline" id="clearFilters">Clear Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Items Section -->
+    <section class="main-content" id="items">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-clock"></i> Recent Items
+            </h2>
+            <div class="items-grid" id="itemsGrid">
+                <!-- Items will be loaded here by JavaScript -->
+                <div class="loading">Loading items...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Campus Lost & Found Portal. All rights reserved.</p>
+            <p>Backend: <span id="backendStatus">Checking...</span></p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay hidden" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Login to Your Account</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <input type="email" placeholder="Email Address" required value="test@campus.edu">
+                    <input type="password" placeholder="Password" required value="password">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <p class="login-modal-p">
+                    Don't have an account? <a href="#" id="showRegister">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay hidden" id="registerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <input type="text" placeholder="Full Name" required value="John Doe">
+                    <input type="email" placeholder="Campus Email" required value="john@campus.edu">
+                    <input type="text" placeholder="Student ID" required value="20240001">
+                    <input type="password" placeholder="Password" required value="password">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <p class="register-modal-p">
+                    Already have an account? <a href="#" id="showLogin">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+<!-- Improved Report Modal with Submit Only on Step 2 -->
+<div class="modal-overlay hidden" id="reportModal">
+    <div class="modal report-modal">
+        <div class="modal-header">
+            <h3 class="report-modal-header">
+                <i class="fas fa-flag"></i> Report Item
+            </h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body report-modal-body">
+            <!-- Quick Type Selection -->
+            <div class="quick-type">
+                <div class="quick-type-header">
+                    <h4>What would you like to do?</h4>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Choose one option to get started</p>
+                </div>
+                <div class="type-buttons">
+                    <button type="button" class="type-btn active" data-type="lost">
+                        <i class="fas fa-search"></i>
+                        <span>I Lost Something</span>
+                        <small>Can't find your item</small>
+                    </button>
+                    <button type="button" class="type-btn" data-type="found">
+                        <i class="fas fa-hands-helping"></i>
+                        <span>I Found Something</span>
+                        <small>Found someone else's item</small>
+                    </button>
+                </div>
+            </div>
+
+            <form id="reportForm">
+                <input type="hidden" name="type" value="lost" id="itemType">
+                
+                <!-- Step 1 - Basic Info (NO SUBMIT BUTTON) -->
+                <div class="form-step active" id="step1">
+                    <div class="form-group">
+                        <label for="itemTitle">What did you lose/find? *</label>
+                        <input type="text" id="itemTitle" name="title" placeholder="e.g., iPhone, Wallet, Keys, Book..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemCategory">Category *</label>
+                        <select name="category" id="itemCategory" required>
+                            <option value="">Choose category</option>
+                            <option value="electronics">📱 Electronics</option>
+                            <option value="documents">📄 Documents</option>
+                            <option value="keys">🔑 Keys</option>
+                            <option value="wallets">👛 Wallets</option>
+                            <option value="bags">🎒 Bags</option>
+                            <option value="clothing">👕 Clothing</option>
+                            <option value="books">📚 Books</option>
+                            <option value="other">📦 Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemLocation">Where? *</label>
+                        <input type="text" id="itemLocation" name="location" placeholder="e.g., Library, Cafeteria, Room 205..." required>
+                    </div>
+                    
+                    <!-- Only Next Button on Step 1 -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="showModal('reportModal', false)">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="showStep(2)">
+                            Continue <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2 - Additional Details (WITH SUBMIT BUTTON) -->
+                <div class="form-step hidden" id="step2">
+                    <div class="step-header">
+                        <button type="button" class="btn-text" onclick="showStep(1)">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <div class="step-indicator">
+                            <span style="color: var(--gray); font-size: 0.9rem;">Step 2 of 2</span>
+                            <div style="font-weight: 600; color: var(--dark);">Additional Details</div>
+                        </div>
+                    </div>
+
+                    <div class="form-content">
+                        <div class="form-group">
+                            <label for="itemDescription">Describe the item *</label>
+                            <textarea id="itemDescription" name="description" placeholder="Be specific about appearance, condition, and any unique features...
+• Color, size, brand
+• Scratches, damages
+• Contents (if any)
+• Special markings" 
+                                      rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="itemColor">Color</label>
+                                <input type="text" id="itemColor" name="color" placeholder="e.g., Black, Blue, Red">
+                            </div>
+                            <div class="form-group">
+                                <label for="itemBrand">Brand</label>
+                                <input type="text" id="itemBrand" name="brand" placeholder="e.g., Apple, Nike, Samsung">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">Your Email *</label>
+                            <input type="email" id="contactEmail" name="contactEmail" placeholder="We'll use this to contact you" required>
+                        </div>
+
+                        <div class="form-tips">
+                            <p>
+                                <i class="fas fa-lightbulb" style="color: var(--warning); margin-top: 2px;"></i>
+                                <span><strong>Pro tip:</strong> The more details you provide, the easier it will be to identify and return your item!</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- SUBMIT BUTTON ONLY ON STEP 2 -->
+                    <div class="submit-section">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Report
+                        </button>
+                        <p>
+                            Your item will appear immediately in the listings
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Item Details Modal -->
+<div class="modal-overlay hidden" id="itemDetailsModal">
+    <div class="modal item-details-modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-info-circle"></i> Item Details</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="itemDetailsContent">
+                <!-- Details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
